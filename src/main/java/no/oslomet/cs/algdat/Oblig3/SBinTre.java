@@ -89,7 +89,7 @@ public class SBinTre<T> {
         Node<T> current = rot;
         Node<T> parent = null;
         int cmp = 0;
-        while (current != null) {   //Bruker komparator og flytter p dersom current ikke er null
+        while (current != null) {   //Bruker komparator og flytter current dersom current ikke er null
             parent = current;
             cmp = comp.compare(verdi, current.verdi);
             current = cmp < 0 ? current.venstre : current.høyre;
@@ -118,7 +118,20 @@ public class SBinTre<T> {
     }
 
     public int antall(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if (verdi == null) {    //dersom verdi er null returneres 0
+            return 0;
+        }
+        Node<T> current = rot;
+        int teller = 0;
+
+        while (current != null) {   //Bruker komparator og flytter current dersom current ikke er null
+            int cmp = comp.compare(verdi, current.verdi);
+            current = cmp < 0 ? current.venstre : current.høyre;
+            if (cmp == 0) { //teller går opp dersom den er 0
+                teller++;
+            }
+        }
+        return teller;
     }
 
     public void nullstill() {
