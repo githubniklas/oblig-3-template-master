@@ -139,7 +139,19 @@ public class SBinTre<T> {
     }
 
     private static <T> Node<T> førstePostorden(Node<T> p) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        Objects.requireNonNull(p);  //Sjekker for nullverdier
+
+        while (true) {
+            if (p.venstre != null) {
+                p = p.venstre;  //Venstrebarn til p
+            }
+            else if (p.høyre != null) {
+                p = p.høyre;    //Høyrebarn til p
+            }
+            else {
+                return p;
+            }
+        }
     }
 
     private static <T> Node<T> nestePostorden(Node<T> p) {
