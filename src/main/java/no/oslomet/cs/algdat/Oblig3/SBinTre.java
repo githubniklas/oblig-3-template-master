@@ -155,7 +155,20 @@ public class SBinTre<T> {
     }
 
     private static <T> Node<T> nestePostorden(Node<T> p) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        Node<T> f = p.forelder;
+
+        if (f == null) {
+            return null;
+        }
+        if (f.høyre == p) { //Sjekker om p er høyrebarn
+            return f;   //Neste postorden er forelder til p
+        }
+        else if (f.høyre == null) { //Er p venstrebarn sjekkes om p har høyre søsken
+            return f;   //Neste postorden er forelder til p
+        }
+        else {  //Er p venstrebarn og har høyre søsken er denne neste postorden
+            return førstePostorden(f.høyre);
+        }
     }
 
     public void postorden(Oppgave<? super T> oppgave) {
