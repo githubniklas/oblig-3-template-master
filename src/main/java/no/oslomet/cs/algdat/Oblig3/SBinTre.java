@@ -211,7 +211,11 @@ public class SBinTre<T> {
     }
 
     static <K> SBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        SBinTre<K> tre = new SBinTre<>(c);  //lager tomt tre
+        for (K verdi : data) {  //for-løkke som itererer gjennom treet og legger til verdien hver gang en ny verdi finnes
+            tre.leggInn(verdi);
+        }
+        return tre; //returnerer verdien
     }
 
 
