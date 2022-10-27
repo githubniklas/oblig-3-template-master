@@ -86,23 +86,23 @@ public class SBinTre<T> {
     public boolean leggInn(T verdi) {
         Objects.requireNonNull(verdi);  //Ikke lov med null verdier
 
-        Node<T> current = rot;
+        Node<T> p = rot;
         Node<T> parent = null;
         int cmp = 0;
-        while (current != null) {   //Bruker komparator og flytter current dersom current ikke er null
-            parent = current;
-            cmp = comp.compare(verdi, current.verdi);
-            current = cmp < 0 ? current.venstre : current.høyre;
+        while (p != null) {   //Bruker komparator og flytter current dersom current ikke er null
+            parent = p;
+            cmp = comp.compare(verdi, p.verdi);
+            p = cmp < 0 ? p.venstre : p.høyre;
         }
-        current = new Node<>(verdi, parent);
+        p = new Node<>(verdi, parent);
         if (parent == null) {   //Current blir rotnode dersom forelder er null
-            rot = current;
+            rot = p;
         }
         else if (cmp < 0) { //venstre barn til forelder
-            parent.venstre = current;
+            parent.venstre = p;
         }
         else {  //høyre barn til forelder
-            parent.høyre = current;
+            parent.høyre = p;
         }
         antall++;
         endringer++;
@@ -121,12 +121,12 @@ public class SBinTre<T> {
         if (verdi == null) {    //dersom verdi er null returneres 0
             return 0;
         }
-        Node<T> current = rot;
+        Node<T> p = rot;
         int teller = 0;
 
-        while (current != null) {   //Bruker komparator og flytter current dersom current ikke er null
-            int cmp = comp.compare(verdi, current.verdi);
-            current = cmp < 0 ? current.venstre : current.høyre;
+        while (p != null) {   //Bruker komparator og flytter current dersom current ikke er null
+            int cmp = comp.compare(verdi, p.verdi);
+            p = cmp < 0 ? p.venstre : p.høyre;
             if (cmp == 0) { //teller går opp dersom den er 0
                 teller++;
             }
@@ -172,7 +172,13 @@ public class SBinTre<T> {
     }
 
     public void postorden(Oppgave<? super T> oppgave) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        Node<T> p = rot;
+        p = førstePostorden(p); //Finner første porstorden
+
+        while (p != null) { //Stopper dersom p er null
+            oppgave.utførOppgave(p.verdi);
+            p = nestePostorden(p);
+        }
     }
 
     public void postordenRecursive(Oppgave<? super T> oppgave) {
