@@ -188,7 +188,7 @@ public class SBinTre<T> {
         Node<T> p = rot;
         int teller = 0;
 
-        while (p != null) {   //Bruker komparator og flytter current dersom current ikke er null
+        while (p != null) {   //Bruker komparator og flytter p dersom p ikke er null
             int cmp = comp.compare(verdi, p.verdi);
             p = cmp < 0 ? p.venstre : p.høyre;
             if (cmp == 0) { //teller går opp dersom den er 0
