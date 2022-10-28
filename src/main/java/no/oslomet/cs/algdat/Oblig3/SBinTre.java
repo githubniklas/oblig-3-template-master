@@ -169,7 +169,14 @@ public class SBinTre<T> {
     }
 
     public int fjernAlle(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if (tom()) {    //dersom det ikke er noen verdier, returneres 0
+            return 0;
+        }
+        int antallVerdier = 0;  //teller antall verdier fjernet
+        while (fjern(verdi)) {  //while løkke som legger til 1 i antallVerdier for hver iterasjon av fjern()
+            antallVerdier++;
+        }
+        return antallVerdier;
     }
 
     public int antall(T verdi) {
