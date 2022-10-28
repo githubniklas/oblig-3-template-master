@@ -159,8 +159,8 @@ public class SBinTre<T> {
             }
             else {
                 s.høyre = r.høyre;
-            }   //sørger for riktig foreldre peker dersom r.høyre ikke er tom
-            if (r.høyre != null) {
+            }
+            if (r.høyre != null) {  //sørger for riktig foreldre peker dersom r.høyre ikke er tom
                 r.høyre.forelder = s;
             }
         }
