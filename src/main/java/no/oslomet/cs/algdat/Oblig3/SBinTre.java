@@ -2,7 +2,9 @@ package no.oslomet.cs.algdat.Oblig3;
 
 
 import java.util.*;
-
+/*
+    Niklas Laache s362125, s362125@oslomet.no
+ */
 public class SBinTre<T> {
     private static final class Node<T>   // en indre nodeklasse
     {
