@@ -84,22 +84,22 @@ public class SBinTre<T> {
         Objects.requireNonNull(verdi);  //Ikke lov med null verdier
 
         Node<T> p = rot;
-        Node<T> parent = null;
+        Node<T> q = null;
         int cmp = 0;
         while (p != null) {   //Bruker komparator og flytter current dersom current ikke er null
-            parent = p;
+            q = p;
             cmp = comp.compare(verdi, p.verdi);
             p = cmp < 0 ? p.venstre : p.høyre;
         }
-        p = new Node<>(verdi, parent);
-        if (parent == null) {   //Current blir rotnode dersom forelder er null
+        p = new Node<>(verdi, q);
+        if (q == null) {   //Current blir rotnode dersom forelder er null
             rot = p;
         }
         else if (cmp < 0) { //venstre barn til forelder
-            parent.venstre = p;
+            q.venstre = p;
         }
         else {  //høyre barn til forelder
-            parent.høyre = p;
+            q.høyre = p;
         }
         antall++;
         endringer++;
@@ -107,7 +107,65 @@ public class SBinTre<T> {
     }
 
     public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if  (verdi == null) {   //returnerer false dersom tre har nullverdier
+            return false;
+        }
+        Node<T> p = rot;    //q er forelderen til p
+        Node<T> q = null;
+
+        while (p != null) { //while løkke som leter etter verdier
+            int cmp = comp.compare(verdi, p.verdi); //komparator for å sammenligne
+            if (cmp < 0) {  //går til venstre
+                q = p;
+                p = p.venstre;
+            }
+            else if (cmp > 0) { //går til høyre
+                q = p;
+                p = p.høyre;
+            }
+            else {  //søkt verdi ligger i p
+                break;
+            }
+        }
+        if (p == null) {    //returnerer false dersom verdi ikke blir funnet
+            return false;
+        }
+        if (p.venstre == null || p.høyre == null) { //tilfelle 1 og tilfelle 2
+            Node<T> b = p.venstre != null ? p.venstre : p.høyre;
+            if (p == rot) {
+                rot = b;
+            }
+            else if (p == q.venstre) {
+                q.venstre = b;
+            }
+            else {
+                q.høyre = b;
+            }
+            if (b != null) {
+                b.forelder = q;
+            }
+        }
+        else {  //tilfelle 3
+            Node<T> s = p;
+            Node<T> r = p.høyre;
+            while (r.venstre != null) {
+                s = r;  //s er forelder til r
+                r = r.venstre;
+            }
+            p.verdi = r.verdi;
+
+            if (s != p) {   //sørger for riktig foreldre peker dersom r.høyre ikke er tom
+                s.venstre = r.høyre;
+            }
+            else {
+                s.høyre = r.høyre;
+            }   //sørger for riktig foreldre peker dersom r.høyre ikke er tom
+            if (r.høyre != null) {
+                r.høyre.forelder = s;
+            }
+        }
+        antall--;   //antall reduseres fordi det er en mindre node
+        return true;
     }
 
     public int fjernAlle(T verdi) {
