@@ -197,7 +197,25 @@ public class SBinTre<T> {
     }
 
     public void nullstill() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if (antall == 0) {  //returnerer ingenting dersom antall er 0
+            return;
+        }
+        Node<T> p = rot;
+        int antallVerdier = antall;
+        p = førstePostorden(p); //oppdaterer antall verdier
+
+        while (antallVerdier != 0) {    //kjører dersom antallverdier ikke er 0
+            if (p != null) {    //bruker fjern() metoden og nullstiller hver iterasjon der antallverdier ikke er 0
+                fjern(p.verdi);
+            }
+            if (p != null) {    //oppdaterer p verdien
+                p.verdi = null;
+            }
+            if (p != null) {    //bruker nestePostorden for å gå videre i treet.
+                p = nestePostorden(p);
+            }
+            antallVerdier--;    //antall verdier minskes
+        }
     }
 
     private static <T> Node<T> førstePostorden(Node<T> p) {
